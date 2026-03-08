@@ -1,27 +1,18 @@
-from flask import Flask, render_template, request, jsonify
-from rag import retrieve_answer
+from flask import Flask, send_from_directory
 
 app = Flask(__name__)
 
-
-# Home page
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return send_from_directory(".", "index.html")
 
+@app.route("/styles.css")
+def style():
+    return send_from_directory(".", "styles.css")
 
-# Chat API
-@app.route("/chat", methods=["POST"])
-def chat():
-
-    data = request.json
-
-    user_message = data["message"]
-
-    answer = retrieve_answer(user_message)
-
-    return jsonify({"reply": answer})
-
+@app.route("/script.js")
+def script():
+    return send_from_directory(".", "script.js")
 
 if __name__ == "__main__":
     app.run(debug=True)
